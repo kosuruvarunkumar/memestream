@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/memes")
@@ -19,5 +20,15 @@ public class MemesController {
     @PostMapping("/")
     public ResponseEntity<?> addMeme(@Valid @RequestBody Meme meme) {
         return new ResponseEntity<Long>(memesService.saveOrUpdateMeme(meme), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<?> getTop100Memes() {
+        return new ResponseEntity<List<Meme>>(memesService.getTop100Memes(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findMemeByIdentifier(@PathVariable Long id) {
+        return new ResponseEntity<Meme>(memesService.findMemeByIdentifier(id), HttpStatus.OK);
     }
 }
